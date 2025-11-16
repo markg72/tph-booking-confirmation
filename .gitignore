@@ -54,6 +54,7 @@ logs/
 temp/
 tmp/
 temp_uploads/
+.reference/
 
 # Poppler (Windows PDF processing - downloaded locally)
 poppler/
