@@ -1,0 +1,68 @@
+# Claude API-Powered PDF Transformation
+# Python >= 3.8 required
+
+# ============================================
+# CORE DEPENDENCIES (Required)
+# ============================================
+
+# Claude API
+anthropic>=0.39.0              # Anthropic Claude API SDK
+
+# Environment & Configuration
+python-dotenv==1.0.0           # Environment variable management (.env files)
+
+# PDF Processing
+pdf2image==1.16.3              # Convert PDF pages to images for Claude vision
+pillow>=10.1.0                 # Image processing and manipulation
+
+# ============================================
+# OPTIONAL DEPENDENCIES
+# ============================================
+
+# HTML to PDF Conversion (Optional - can use Chrome print instead)
+# weasyprint==60.1             # Automated HTML to PDF conversion
+# Note: WeasyPrint requires system dependencies:
+#   Ubuntu/Debian: apt-get install python3-cffi python3-brotli libpango-1.0-0 libpangocairo-1.0-0
+#   macOS: brew install cairo pango
+#   Windows: Use Chrome print-to-PDF or WSL
+
+# Web Interface (Optional - for future drag-and-drop UI)
+# flask==3.0.0                 # Web framework
+# flask-cors==4.0.0            # CORS support for web interface
+
+# Batch Processing (Optional - for future automation)
+# watchdog==3.0.0              # Monitor folders for new PDFs
+
+# ============================================
+# DEVELOPMENT DEPENDENCIES (Optional)
+# ============================================
+
+# Testing
+# pytest==7.4.3                # Testing framework
+# pytest-cov==4.1.0           # Coverage reporting
+# pytest-mock==3.12.0         # Mocking utilities
+
+# Code Quality
+# black==23.11.0              # Code formatting
+# flake8==6.1.0               # Linting
+# mypy==1.7.0                 # Type checking
+
+# ============================================
+# INSTALLATION INSTRUCTIONS
+# ============================================
+
+# Quick start (minimal install):
+#   pip install anthropic python-dotenv pdf2image pillow
+
+# Full installation (all optional dependencies):
+#   pip install -r requirements.txt
+
+# Windows users: poppler required for pdf2image
+#   Download from: https://github.com/oschwartz10612/poppler-windows/releases
+#   Add to PATH or set POPPLER_PATH environment variable
+
+# macOS users: Install poppler via Homebrew
+#   brew install poppler
+
+# Linux users: Install poppler-utils
+#   Ubuntu/Debian: apt-get install poppler-utils

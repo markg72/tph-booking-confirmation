@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation - The Planters House</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.3;
+            color: #333;
+            background: #fff;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background: white;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .logo-container {
+            margin-bottom: 8px;
+        }
+        
+        .logo {
+            width: 65px;
+            height: auto;
+            margin-bottom: 4px;
+        }
+        
+        .hotel-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            color: #264b3a;
+            font-weight: 400;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .confirmation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #264b3a;
+            margin-bottom: 4px;
+            font-weight: 400;
+        }
+        
+        .confirmation-number {
+            font-size: 11px;
+            color: #7f8c8d;
+            letter-spacing: 0.5px;
+        }
+        
+        .confirmation-number {
+            font-size: 14px;
+            color: #7f8c8d;
+            letter-spacing: 1px;
+        }
+        
+        /* Two Column Layout */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        
+        /* Guest Information */
+        .guest-info, .property-info {
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 6px;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: #264b3a;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .info-row {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 75px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-size: 13px;
+            flex: 1;
+        }
+        
+        /* Accommodation Details */
+        .accommodation-section {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .room-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #264b3a;
+        }
+        
+        .room-id {
+            font-size: 11px;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        
+        .stay-details {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+            margin-top: 15px;
+        }
+        
+        .detail-box {
+            text-align: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .detail-label {
+            font-size: 10px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+        }
+        
+        .detail-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #264b3a;
+        }
+        
+        .date-range {
+            background: #fff8e1;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 13px;
+            color: #333;
+            border: 1px solid #ffeb3b;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .price-row:last-child {
+            border-bottom: none;
+        }
+        
+        .price-label {
+            color: #555;
+            font-size: 13px;
+        }
+        
+        .price-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+        }
+        
+        .total-row {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 2px solid #264b3a;
+            font-size: 14px;
+        }
+
+        .total-row .price-label {
+            font-weight: 600;
+            color: #264b3a;
+            font-size: 14px;
+        }
+
+        .total-row .price-value {
+            font-weight: 700;
+            color: #264b3a;
+            font-size: 16px;
+        }
+        
+        /* Payment Status */
+        .payment-status {
+            background: #f6f1e9;
+            border: 1px solid #b89b5e;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .status-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #264b3a;
+            margin-bottom: 6px;
+        }
+
+        .amount-due {
+            font-size: 18px;
+            font-weight: 700;
+            color: #264b3a;
+        }
+
+        .due-date {
+            font-size: 11px;
+            color: #264b3a;
+            margin-top: 6px;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        .footer-contact {
+            margin-top: 6px;
+        }
+        
+        .footer-contact a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        /* Print Styles */
+        @media print {
+            .container {
+                padding: 0;
+                margin: 0;
+            }
+            
+            .payment-status {
+                break-inside: avoid;
+            }
+            
+            body {
+                font-size: 10pt;
+            }
+            
+            @page {
+                margin: 0.5cm;
+            }
+        }
+        
+        /* Special Note */
+        .special-note {
+            background: #9caf88;
+            border-left: 3px solid #264b3a;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            color: #ffffff;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="planters-logo.png" 
+                     alt="The Planters House Logo" 
+                     class="logo">
+                <div class="hotel-name">The Planters House</div>
+            </div>
+            <h1 class="confirmation-title">Booking Confirmation</h1>
+            <p class="confirmation-number">CONFIRMATION NUMBER: 5405998299727</p>
+        </div>
+        
+        <!-- Guest and Property Information -->
+        <div class="info-grid">
+            <div class="guest-info">
+                <h2 class="section-title">Guest Information</h2>
+                <div class="info-row">
+                    <span class="info-label">Name</span>
+                    <span class="info-value">Meagan Gunn</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">meagang@lifepharmacygroup.com.au</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value">+61 428 514 491</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Nationality</span>
+                    <span class="info-value">Australian</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Booking Via</span>
+                    <span class="info-value">Direct</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Heard About</span>
+                    <span class="info-value">TBC</span>
+                </div>
+            </div>
+            
+            <div class="property-info">
+                <h2 class="section-title">Property Details</h2>
+                <div class="info-row">
+                    <span class="info-label">Property</span>
+                    <span class="info-value">The Planters House</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value">+94 77 683 6955</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">reservations@theplantershouse.com</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- AGENT BOOKING SECTION (conditionally displayed when agent_name exists)
+        <div style="background: #9caf88; border-left: 3px solid #264b3a; padding: 12px 16px; margin-bottom: 16px; border-radius: 4px;">
+            <h3 style="color: #264b3a; margin: 0 0 8px 0; font-family: 'Playfair Display', serif; font-size: 16px;">Booked Through</h3>
+            <p style="margin: 4px 0; color: #ffffff; font-size: 13px;"><strong>Agent:</strong> [agent_name]</p>
+            <p style="margin: 4px 0; color: #ffffff; font-size: 13px;"><strong>Contact:</strong> [agent_contact]</p>
+            <p style="margin: 4px 0; color: #ffffff; font-size: 13px;"><strong>Reference:</strong> [tour_reference]</p>
+            <p style="margin: 4px 0; color: #ffffff; font-size: 13px;"><strong>Email:</strong> [agent_email]</p>
+        </div>
+        -->
+
+        <!-- Accommodation Details -->
+        <div class="accommodation-section">
+            <div class="room-header">
+                <h2 class="room-title">The Sunbird Suite & Bunk Room</h2>
+                <span class="room-id">RES ID: 5405998299727</span>
+            </div>
+            
+            <div class="date-range">
+                <strong>Check-in:</strong> Friday, 10 January 2026 (after 2:00 PM) &nbsp;&nbsp;|&nbsp;&nbsp; 
+                <strong>Check-out:</strong> Saturday, 11 January 2026 (before 11:00 AM)
+            </div>
+            
+            <div class="stay-details">
+                <div class="detail-box">
+                    <div class="detail-label">Adults</div>
+                    <div class="detail-value">2</div>
+                </div>
+                <div class="detail-box">
+                    <div class="detail-label">Children</div>
+                    <div class="detail-value">2</div>
+                </div>
+                <div class="detail-box">
+                    <div class="detail-label">Nights</div>
+                    <div class="detail-value">1</div>
+                </div>
+                <div class="detail-box">
+                    <div class="detail-label">Total Rate</div>
+                    <div class="detail-value">$370</div>
+                </div>
+            </div>
+            
+            <div class="special-note">
+                ✓ Children's accommodation included complimentary • Breakfast for all guests included
+            </div>
+        </div>
+        
+        <!-- Pricing and Payment Combined -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px;">
+            <div class="pricing-section" style="margin-bottom: 0;">
+                <h2 class="section-title">Pricing Summary</h2>
+                
+                <div class="price-row">
+                    <span class="price-label">Room Rate (Peak Season)</span>
+                    <span class="price-value">USD 370.00</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">Children's Accommodation</span>
+                    <span class="price-value">Complimentary</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">Breakfast, WiFi, Taxes & Service</span>
+                    <span class="price-value">Included</span>
+                </div>
+                
+                <div class="price-row total-row">
+                    <span class="price-label">GRAND TOTAL</span>
+                    <span class="price-value">USD 370.00</span>
+                </div>
+            </div>
+            
+            <div class="payment-status" style="margin-bottom: 0;">
+                <div class="status-title">PAYMENT STATUS</div>
+                <div class="price-row" style="border: none; padding: 5px 0;">
+                    <span class="price-label">Deposit Required (50%)</span>
+                    <span class="price-value">USD 185.00</span>
+                </div>
+                <div class="price-row" style="border: none; padding: 5px 0;">
+                    <span class="price-label">Amount Paid</span>
+                    <span class="price-value">USD 0.00</span>
+                </div>
+                <div class="amount-due">Balance Due: USD 370.00</div>
+                <div class="due-date">Deposit due upon confirmation<br>Balance due by 11 December 2025</div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin: 8px 0; color: #666; font-size: 13px;">Please review our cancellation policy and payment terms above.</p>
+            <p style="margin: 4px 0; color: #666; font-size: 13px;">The Planters House | +94 (0)77 683 6955 | reservations@theplantershouse.com | www.theplantershouse.com</p>
+        </div>
+    </div>
+</body>
+</html>

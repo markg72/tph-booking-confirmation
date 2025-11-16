@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(mkdir:*)",
+      "Bash(pip install:*)",
+      "Bash(where:*)",
+      "Bash(conda --version:*)",
+      "Bash(winget install:*)",
+      "Bash(powershell -Command \"Invoke-WebRequest -Uri ''https://github.com/oschwartz10612/poppler-windows/releases/download/v24.08.0-0/Release-24.08.0-0.zip'' -OutFile ''poppler.zip''\")",
+      "Bash(powershell:*)",
+      "Bash(dir:*)",
+      "Bash(export PATH=\"/d/MyGitHub/TPH_GitHub_Files/tph-booking-confirmation/poppler/poppler-24.08.0/Library/bin:$PATH\")",
+      "Bash(./run_transform.bat --input \".reference/Before/2025.11.25 - The Planters House - Accommodation Confirmation.pdf\" --debug)",
+      "Bash(start output/4004383429178_confirmation.html)",
+      "Bash(./run_transform.bat --input \".reference/Before/2025.11.25 - The Planters House - Accommodation Confirmation.pdf\")",
+      "Bash(./run_transform.bat --input \".reference/Before/2026.01.10 - The Planters House - Accommodation Confirmation Meagan Gunn.pdf\" --debug)",
+      "Bash(start output/5405998299727_confirmation.html)",
+      "Bash(./run_transform.bat --input \".reference/Before/2026.01.10 - The Planters House - Accommodation Confirmation Meagan Gunn.pdf\")",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
