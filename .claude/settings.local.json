@@ -17,7 +17,13 @@
       "Bash(./run_transform.bat --input \".reference/Before/2026.01.10 - The Planters House - Accommodation Confirmation Meagan Gunn.pdf\" --debug)",
       "Bash(start output/5405998299727_confirmation.html)",
       "Bash(./run_transform.bat --input \".reference/Before/2026.01.10 - The Planters House - Accommodation Confirmation Meagan Gunn.pdf\")",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh --version:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git config:*)",
+      "Bash(gh api:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
