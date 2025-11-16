@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Generated - The Planters House</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .download-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .download-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .download-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .download-btn-html {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .download-btn-html:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn-pdf {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .download-btn-pdf:hover {
+            background: #e0e0e0;
+        }
+
+        .info-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .button {
+            flex: 1;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .button-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .stat {
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .file-name {
+            color: #666;
+            font-family: monospace;
+        }
+
+        .file-icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✨</div>
+        <h1>Confirmation Generated!</h1>
+        <p class="subtitle">Your beautifully branded booking confirmation is ready</p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Time Taken</div>
+                <div class="stat-value">~5s</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Cost</div>
+                <div class="stat-value">~$0.02</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Format</div>
+                <div class="stat-value">A4</div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <div class="download-title">📥 Download Your Files</div>
+
+            <div class="file-info">
+                <div>
+                    <span class="file-icon">📄</span>
+                    <span class="file-name">{{ html_file }}</span>
+                </div>
+            </div>
+
+            {% if pdf_file %}
+            <div class="file-info">
+                <div>
+                    <span class="file-icon">📑</span>
+                    <span class="file-name">{{ pdf_file }}</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="download-buttons">
+                <a href="/download/html" class="download-btn download-btn-html">
+                    📄 Download HTML
+                </a>
+                {% if pdf_file %}
+                <a href="/download/pdf" class="download-btn download-btn-pdf">
+                    📑 Download PDF
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info-box">
+            ✅ <strong>Perfect fit guaranteed!</strong> Confirmation optimized for A4 at 95% scale.
+            Ready to email to your guests.
+        </div>
+
+        <div class="actions">
+            <a href="/" class="button button-secondary">
+                ← Process Another
+            </a>
+            <button onclick="window.open('/download/html', '_blank')" class="button button-primary">
+                👁️ Preview HTML
+            </button>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #eee;">
+            <p style="color: #999; font-size: 14px;">
+                🦚 The Planters House Booking Confirmation Generator<br>
+                Powered by Claude AI
+            </p>
+        </div>
+    </div>
+</body>
+</html>

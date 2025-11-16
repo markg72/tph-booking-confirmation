@@ -27,8 +27,9 @@ pillow>=10.1.0                 # Image processing and manipulation
 #   Windows: Use Chrome print-to-PDF or WSL
 
 # Web Interface (Optional - for future drag-and-drop UI)
-# flask==3.0.0                 # Web framework
-# flask-cors==4.0.0            # CORS support for web interface
+flask==3.0.0                 # Web framework
+flask-cors==4.0.0            # CORS support for web interface
+python-docx==1.1.0           # Word document support
 
 # Batch Processing (Optional - for future automation)
 # watchdog==3.0.0              # Monitor folders for new PDFs

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Booking Data - The Planters House</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .room-card {
+            background: #f8f9ff;
+            border: 2px solid #e0e0f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .room-number {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert.info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .missing-field {
+            background: #fff !important;
+            border-color: #ffc107 !important;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .button {
+            flex: 1;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .button-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-direct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-agent {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🦚</div>
+            <h1>Review Booking Data</h1>
+            <p class="subtitle">Check and edit extracted information before generating</p>
+        </div>
+
+        <div class="alert info">
+            <span style="font-size: 20px;">ℹ️</span>
+            <div>
+                <strong>Review carefully:</strong> Claude AI has extracted the booking data.
+                Please verify all fields are correct before generating the final confirmation.
+            </div>
+        </div>
+
+        <form id="reviewForm">
+            <!-- Booking Type -->
+            <div class="section">
+                <div class="section-title">
+                    📋 Booking Type
+                    <span class="badge {{ 'badge-agent' if data.booking_type == 'agent' else 'badge-direct' }}">
+                        {{ data.booking_type.upper() }}
+                    </span>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Booking Type</label>
+                        <select name="booking_type" id="booking_type">
+                            <option value="direct" {{ 'selected' if data.booking_type == 'direct' else '' }}>Direct Booking</option>
+                            <option value="agent" {{ 'selected' if data.booking_type == 'agent' else '' }}>Agent Booking</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest Information -->
+            <div class="section">
+                <div class="section-title">👤 Guest Information</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="guest_name" value="{{ data.guest_name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span id="emailRequiredLabel">*</span></label>
+                        <input type="email" name="email" id="emailInput" value="{{ data.email }}" {{ '' if data.booking_type == 'agent' else 'required' }}>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone" value="{{ data.phone }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile</label>
+                        <input type="tel" name="mobile" value="{{ data.mobile }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Contact</label>
+                        <input type="text" name="primary_contact" value="{{ data.primary_contact }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Nationality</label>
+                        <input type="text" name="nationality" value="{{ data.nationality }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="section">
+                <div class="section-title">📅 Booking Details</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Reservation ID *</label>
+                        <input type="text" name="res_id" value="{{ data.res_id }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Check-in Date (DD/MM/YYYY) *</label>
+                        <input type="text" name="check_in" value="{{ data.check_in }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Check-out Date (DD/MM/YYYY) *</label>
+                        <input type="text" name="check_out" value="{{ data.check_out }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Nights *</label>
+                        <input type="number" name="nights" value="{{ data.nights }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Reserved Date</label>
+                        <input type="text" name="reserved_date" value="{{ data.reserved_date }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Booking Via</label>
+                        <input type="text" name="booking_via" value="{{ data.booking_via }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rooms -->
+            <div class="section">
+                <div class="section-title">🏨 Rooms</div>
+                <div id="roomsContainer">
+                    {% for room in data.rooms %}
+                    <div class="room-card">
+                        <div class="room-header">
+                            <span class="room-number">Room {{ loop.index }}</span>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Room Name *</label>
+                                <input type="text" name="room_{{ loop.index0 }}_name" value="{{ room.room_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adults *</label>
+                                <input type="number" name="room_{{ loop.index0 }}_adults" value="{{ room.adults }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Children</label>
+                                <input type="number" name="room_{{ loop.index0 }}_children" value="{{ room.children }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Rate per Night *</label>
+                                <input type="number" step="0.01" name="room_{{ loop.index0 }}_rate_per_night" value="{{ room.rate_per_night }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Rate *</label>
+                                <input type="number" step="0.01" name="room_{{ loop.index0 }}_total_rate" value="{{ room.total_rate }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Payment Information -->
+            <div class="section">
+                <div class="section-title">💰 Payment Information</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Total Amount *</label>
+                        <input type="number" step="0.01" name="total_amount" value="{{ data.total_amount }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Deposit Amount</label>
+                        <input type="number" step="0.01" name="deposit_amount" value="{{ data.deposit_amount }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Paid</label>
+                        <input type="number" step="0.01" name="amount_paid" value="{{ data.amount_paid }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Balance Due *</label>
+                        <input type="number" step="0.01" name="balance_due" value="{{ data.balance_due }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Information (if applicable) -->
+            <div class="section" id="agentSection" style="display: {{ 'block' if data.booking_type == 'agent' else 'none' }}">
+                <div class="section-title">🏢 Agent Information</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Agent/Company Name</label>
+                        <input type="text" name="agent_name" value="{{ data.agent_name or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Person (Tour Consultant)</label>
+                        <input type="text" name="agent_contact_person" value="{{ data.agent_contact_person or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Agent Phone</label>
+                        <input type="text" name="agent_contact" value="{{ data.agent_contact or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Agent Email</label>
+                        <input type="email" name="agent_email" value="{{ data.agent_email or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Tour Reference</label>
+                        <input type="text" name="tour_reference" value="{{ data.tour_reference or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Voucher Number</label>
+                        <input type="text" name="voucher_number" value="{{ data.voucher_number or '' }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="button button-secondary" onclick="window.location.href='/'">
+                    ← Back to Upload
+                </button>
+                <button type="submit" class="button button-primary" id="generateBtn">
+                    ✨ Generate Confirmation
+                </button>
+            </div>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Generating your beautiful confirmation...</div>
+        </div>
+    </div>
+
+    <script>
+        const bookingTypeSelect = document.getElementById('booking_type');
+        const agentSection = document.getElementById('agentSection');
+        const form = document.getElementById('reviewForm');
+        const loading = document.getElementById('loading');
+        const generateBtn = document.getElementById('generateBtn');
+
+        // Show/hide agent section based on booking type
+        bookingTypeSelect.addEventListener('change', (e) => {
+            const isAgent = e.target.value === 'agent';
+            agentSection.style.display = isAgent ? 'block' : 'none';
+
+            // Make email optional for agent bookings
+            const emailInput = document.getElementById('emailInput');
+            const emailLabel = document.getElementById('emailRequiredLabel');
+            if (isAgent) {
+                emailInput.removeAttribute('required');
+                emailLabel.style.display = 'none';
+            } else {
+                emailInput.setAttribute('required', 'required');
+                emailLabel.style.display = 'inline';
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = {};
+
+            // Convert form data to JSON
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+
+            // Reconstruct rooms array
+            const rooms = [];
+            let roomIndex = 0;
+            while (formData.has(`room_${roomIndex}_name`)) {
+                rooms.push({
+                    room_name: formData.get(`room_${roomIndex}_name`),
+                    adults: parseInt(formData.get(`room_${roomIndex}_adults`)),
+                    children: parseInt(formData.get(`room_${roomIndex}_children`) || 0),
+                    rate_per_night: parseFloat(formData.get(`room_${roomIndex}_rate_per_night`)),
+                    total_rate: parseFloat(formData.get(`room_${roomIndex}_total_rate`))
+                });
+                roomIndex++;
+            }
+            data.rooms = rooms;
+
+            // Convert numbers
+            data.nights = parseInt(data.nights);
+            data.total_amount = parseFloat(data.total_amount);
+            data.deposit_amount = parseFloat(data.deposit_amount || 0);
+            data.amount_paid = parseFloat(data.amount_paid || 0);
+            data.balance_due = parseFloat(data.balance_due);
+
+            // Show loading
+            loading.style.display = 'block';
+            generateBtn.disabled = true;
+
+            try {
+                // Update session data
+                await fetch('/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Generate confirmation
+                const response = await fetch('/generate', {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Redirect to success page
+                    window.location.href = '/success';
+                } else {
+                    throw new Error(result.error || 'Generation failed');
+                }
+            } catch (err) {
+                alert('❌ Error: ' + err.message);
+                loading.style.display = 'none';
+                generateBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
