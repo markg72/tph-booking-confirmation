@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Planters House - Booking Confirmation Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .upload-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .drop-zone {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            background: #e8ebff;
+            border-color: #764ba2;
+        }
+
+        .drop-zone-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone-text {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .drop-zone-hint {
+            color: #999;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider-text {
+            background: white;
+            padding: 0 20px;
+            color: #999;
+            position: relative;
+            display: inline-block;
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: monospace;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .text-area:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .supported-formats {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .format-badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🦚</div>
+            <h1>The Planters House</h1>
+            <p class="subtitle">Booking Confirmation Generator</p>
+        </div>
+
+        <form id="uploadForm">
+            <div class="upload-section">
+                <h2 class="section-title">📄 Upload Booking Document</h2>
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-icon">📁</div>
+                    <div class="drop-zone-text">
+                        <strong>Drag & drop your file here</strong> or click to browse
+                    </div>
+                    <div class="drop-zone-hint">
+                        Supports: PDF, Word (.docx), or Text files
+                    </div>
+                </div>
+                <input type="file" id="fileInput" name="file" class="file-input" accept=".pdf,.docx,.doc,.txt">
+            </div>
+
+            <div class="divider">
+                <span class="divider-text">OR</span>
+            </div>
+
+            <div class="upload-section">
+                <h2 class="section-title">✏️ Paste Booking Text</h2>
+                <textarea
+                    id="textContent"
+                    name="text_content"
+                    class="text-area"
+                    placeholder="Paste booking confirmation text here...&#10;&#10;Example:&#10;Guest Name: John Smith&#10;Email: john@example.com&#10;Check-in: 25/11/2025&#10;Check-out: 27/11/2025&#10;Room: The Sunbird Suite&#10;..."></textarea>
+            </div>
+
+            <button type="submit" class="button" id="submitBtn">
+                🚀 Extract Booking Data
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Extracting booking data with Claude AI...</div>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="supported-formats">
+            <div style="color: #999; font-size: 14px; margin-bottom: 10px;">Supported Formats</div>
+            <div class="format-badges">
+                <span class="badge">📄 PDF</span>
+                <span class="badge">📝 Word (DOCX)</span>
+                <span class="badge">📃 Text (TXT)</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const form = document.getElementById('uploadForm');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const submitBtn = document.getElementById('submitBtn');
+        const textContent = document.getElementById('textContent');
+
+        // Click to upload
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Drag and drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateDropZoneText(e.dataTransfer.files[0].name);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                updateDropZoneText(e.target.files[0].name);
+            }
+        });
+
+        function updateDropZoneText(filename) {
+            const icon = dropZone.querySelector('.drop-zone-icon');
+            const text = dropZone.querySelector('.drop-zone-text');
+            icon.textContent = '✅';
+            text.innerHTML = `<strong>Selected:</strong> ${filename}`;
+        }
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const hasFile = fileInput.files.length > 0;
+            const hasText = textContent.value.trim().length > 0;
+
+            // Validate input
+            if (!hasFile && !hasText) {
+                error.textContent = '❌ Please upload a file or paste text';
+                error.style.display = 'block';
+                return;
+            }
+
+            // Validate text length
+            if (hasText && textContent.value.trim().length < 50) {
+                error.textContent = '❌ Text is too short. Please paste the complete booking confirmation.';
+                error.style.display = 'block';
+                return;
+            }
+
+            // Show loading
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Redirect to review page
+                    window.location.href = '/review';
+                } else {
+                    throw new Error(data.error || 'Upload failed');
+                }
+            } catch (err) {
+                error.textContent = '❌ ' + (err.message || 'Network error. Please try again.');
+                error.style.display = 'block';
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

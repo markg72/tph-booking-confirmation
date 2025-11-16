@@ -163,6 +163,152 @@ IMPORTANT DETECTION RULES:
             print(f"Response was: {response_text}")
             raise
 
+    def extract_from_text(self, text_content):
+        """Extract booking data from plain text using Claude API"""
+        if self.debug:
+            print("Extracting booking data from text with Claude API...")
+
+        # Create extraction prompt for text
+        extraction_prompt = """You are analyzing a booking confirmation document.
+Extract ALL booking information and return it as a JSON object with these exact fields:
+
+{
+  "booking_type": "direct|agent",
+  "guest_name": "Full guest name (first name + surname)",
+  "email": "Guest email address",
+  "phone": "Guest phone number with country code",
+  "mobile": "Guest mobile number (if different from phone, otherwise same as phone)",
+  "primary_contact": "Primary contact person name (if specified, otherwise same as guest_name)",
+  "nationality": "Guest nationality (if available, otherwise 'Not specified')",
+  "res_id": "Reservation ID number (look for Confirmation#, Booking#, Reservation#, Reference#)",
+  "check_in": "Check-in date in DD/MM/YYYY format",
+  "check_out": "Check-out date in DD/MM/YYYY format",
+  "nights": "Number of nights (as number)",
+  "rooms": [
+    {
+      "room_name": "Room/suite name",
+      "adults": "Number of adults (as number)",
+      "children": "Number of children (as number)",
+      "rate_per_night": "Per night rate (number only)",
+      "total_rate": "Total for this room (number only)"
+    }
+  ],
+  "total_amount": "Grand total for all rooms (number only, no currency)",
+  "deposit_amount": "Deposit required (number only)",
+  "amount_paid": "Amount already paid (number only)",
+  "balance_due": "Balance remaining (number only)",
+  "reserved_date": "Date booking was made (if available)",
+  "booking_via": "Booking source (e.g., 'Direct', 'Booking.com', 'Expedia', 'Agent')",
+  "heard_about": "How guest heard about hotel (if available)",
+  "agent_name": "COMPANY NAME ONLY - clean up extraneous text (if agent booking)",
+  "agent_contact_person": "Tour Consultant/Contact Person name (if agent booking)",
+  "agent_contact": "Agent phone number (if agent booking)",
+  "agent_email": "Agent email address (if agent booking)",
+  "tour_reference": "Tour reference number (if agent booking)",
+  "voucher_number": "Voucher number (if agent booking)"
+}
+
+CRITICAL EXTRACTION RULES:
+
+1. **Booking Type Detection**:
+   - Set to "agent" if you find: agent company name, tour operator, travel agency, tour consultant, voucher number
+   - Otherwise set to "direct"
+
+2. **Agent Name Cleanup (VERY IMPORTANT)**:
+   - Extract ONLY the main company/agency name
+   - REMOVE any text after "/" or "|" symbols
+   - REMOVE department names like "FIT Marketing", "Group Sales", etc.
+   - Example: "Sri Lanka in Luxury Travels / FIT Marketing" → "Sri Lanka in Luxury Travels"
+   - Example: "ABC Tours | Wholesale Division" → "ABC Tours"
+
+3. **Agent Contact Person**:
+   - Look for fields labeled: "Tour Consultant", "Consultant", "Contact Person", "Handled by", "Agent"
+   - This is the PERSON'S name, not the company name
+   - Example: "Tour Consultant: Rangila" → "Rangila"
+
+4. **Reservation ID**:
+   - Look for various field names: Confirmation #, Booking #, Reservation #, Reference #, Voucher #
+   - Extract the ID number only
+
+5. **Guest Name**:
+   - Extract full name (first + last name) if available
+   - Look throughout the entire document for surname if not in guest section
+
+6. **Date Formats**:
+   - Convert ALL dates to DD/MM/YYYY format (e.g., 25/11/2025)
+   - Recognize formats: DD/MM/YYYY, MM/DD/YYYY, YYYY-MM-DD, DD-MMM-YYYY
+
+7. **Numbers**:
+   - Remove ALL currency symbols ($, €, £, Rs, LKR, etc.)
+   - Convert to numeric values only
+   - Use 0 for missing numbers
+
+8. **Missing Information**:
+   - Use empty string "" for missing text fields
+   - Use 0 for missing numbers
+   - Don't make up or guess information
+
+9. **Multi-Page Documents**:
+   - Read the ENTIRE document, not just the first page
+   - Agent contact details often appear on page 2
+   - Look for additional information throughout
+
+10. **Return Format**:
+    - Return ONLY the JSON object
+    - No explanations or additional text
+    - Ensure valid JSON syntax
+
+Here is the booking text to analyze:
+
+""" + text_content
+
+        # Send to Claude API
+        message = self.client.messages.create(
+            model="claude-sonnet-4-5-20250929",
+            max_tokens=4096,
+            messages=[{
+                "role": "user",
+                "content": extraction_prompt
+            }]
+        )
+
+        response_text = message.content[0].text
+
+        if self.debug:
+            print(f"Claude response: {response_text[:500]}...")
+
+        # Extract JSON from response
+        try:
+            # Remove markdown code blocks if present
+            if "```json" in response_text:
+                response_text = response_text.split("```json")[1].split("```")[0].strip()
+            elif "```" in response_text:
+                response_text = response_text.split("```")[1].split("```")[0].strip()
+
+            booking_data = json.loads(response_text)
+            return booking_data
+        except json.JSONDecodeError as e:
+            print(f"Error parsing JSON response: {e}")
+            print(f"Response was: {response_text}")
+            raise
+
+    def generate_confirmation(self, booking_data):
+        """Generate confirmation HTML and return file paths (for web interface)"""
+        if self.debug:
+            print("Generating confirmation from booking data...")
+
+        # Generate HTML
+        html_content = self.generate_html(booking_data)
+
+        # Save HTML
+        html_path = self.save_outputs(booking_data, html_content)
+
+        # For now, we don't auto-generate PDF (user can print from browser)
+        # Could add WeasyPrint or similar for automated PDF generation
+        pdf_path = None
+
+        return html_path, pdf_path
+
     def generate_html(self, booking_data):
         """Generate branded HTML using Claude with design constraints"""
         if self.debug:
